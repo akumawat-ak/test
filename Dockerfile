@@ -1,19 +1,8 @@
-FROM alpine:latest
-RUN apk add --no-cache nodejs npm
-
-
-WORKDIR /app
-
-
-COPY . /app
-
-
+FROM node:lts-alpine
+WORKDIR /usr/src/app
+COPY package*.json ./
 RUN npm install
-
-
-EXPOSE 9005
-
-
-ENTRYPOINT ["node"]
-
-CMD ["server.js"]
+COPY . .
+ENV PORT=8080
+EXPOSE 8080
+CMD ["npm", "start"]
