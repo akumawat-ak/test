@@ -10,7 +10,7 @@ node {
     stage('Build image') {
         /* This builds the actual image */
 
-        app = docker.build("akumawat4692/nodejs")
+        app = docker.build("docker.pkg.github.com/akumawat-ak/test/testjs")
     }
 
     stage('Test image') {
@@ -21,14 +21,11 @@ node {
     }
 
     stage('Push image') {
-        /*
-                        You would need to first register with DockerHub before you can push images to your account
-                */
-        docker.withRegistry('https://registry.hub.docker.com', 'docker_hub') {
+        docker.withRegistry('https://docker.pkg.github.com', 'gh-registry-pat') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
             }
-                echo "Trying to Push Docker Build to DockerHub"
+                echo "Trying to Push Docker Build to Github Package registry"
     }
 }
 
